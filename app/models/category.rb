@@ -1,4 +1,7 @@
 class Category < ApplicationRecord
+  # One category can have many products.
+  has_many :products, dependent: :destroy
+
   # Category name cannot be empty.
   validates :name, presence: true
 
