@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  # Store homepage.
+  # Customer pages.
   root "products#index"
 
-  # Customer product pages.
   resources :products, only: [:index, :show]
-
-  # Customer category pages.
   resources :categories, only: [:index, :show]
+
+  # admin pages.
+  namespace :admin do
+    resources :products
+  end
 end
