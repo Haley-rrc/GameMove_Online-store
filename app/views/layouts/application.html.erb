@@ -23,11 +23,18 @@
         <%= link_to "Game-Move", root_path %>
         <%= link_to "All Products", products_path %>
         <%= link_to "Categories", categories_path %>
-        <%= link_to "Admin", admin_products_path %>
+        <%= link_to "Admin Login", admin_login_path %>
       </nav>
     </header>
 
     <main>
+    <% if notice.present? %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
+
+    <% if alert.present? %>
+      <p class="alert"><%= alert %></p>
+    <% end %>
       <%= yield %>
     </main>
   </body>

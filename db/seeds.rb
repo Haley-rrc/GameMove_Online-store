@@ -1,4 +1,5 @@
 # Delete old products first because they belong to categories.
+AdminUser.destroy_all
 Product.destroy_all
 Category.destroy_all
 
@@ -38,3 +39,12 @@ end
 puts "Seed data created successfully."
 puts "#{Category.count} categories created."
 puts "#{Product.count} products created."
+
+# Create one administrator account.
+AdminUser.create!(
+  username: "admin",
+  password: "password",
+  password_confirmation: "password"
+)
+
+puts "#{AdminUser.count} administrator created."

@@ -1,12 +1,13 @@
 <h1>Admin Product Management</h1>
+<p>
+  <%= button_to "Admin Logout",
+                admin_logout_path,
+                method: :delete %>
+</p>
 
 <p>
   <%= link_to "Add New Product", new_admin_product_path %>
 </p>
-
-<% if notice.present? %>
-  <p class="notice"><%= notice %></p>
-<% end %>
 
 <table class="admin-table">
   <thead>

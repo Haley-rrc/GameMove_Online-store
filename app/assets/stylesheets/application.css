@@ -170,3 +170,11 @@ h1 {
 .pagination a:hover {
   background-color: #eeeeee;
 }
+
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  color: #8b0000;
+  background-color: #fff0f0;
+  border: 1px solid #cc9999;
+}

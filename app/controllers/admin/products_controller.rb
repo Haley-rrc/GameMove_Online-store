@@ -1,4 +1,6 @@
 class Admin::ProductsController < ApplicationController
+  # Check admin before start
+  before_action :require_admin
   # Find the product before show, edit, update and destroy.
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
@@ -51,6 +53,13 @@ class Admin::ProductsController < ApplicationController
   end
 
   private
+
+  def require_admin
+    return if session[:admin_user_id].present?
+
+    redirect_to admin_login_path,
+                alert: "Please log in to access the admin dashboard."
+  end
 
   # Find one product using its ID.
   def set_product
