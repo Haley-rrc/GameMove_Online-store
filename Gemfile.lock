@@ -106,6 +106,8 @@ GEM
     drb (2.2.3)
     erb (6.0.5)
     erubi (1.13.1)
+    faker (3.8.0)
+      i18n (>= 1.8.11, < 2)
     globalid (1.4.0)
       activesupport (>= 6.1)
     i18n (1.15.2)
@@ -331,6 +333,7 @@ DEPENDENCIES
   brakeman
   capybara
   debug
+  faker
   importmap-rails
   jbuilder
   pg (~> 1.1)
@@ -376,6 +379,7 @@ CHECKSUMS
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   erb (6.0.5) sha256=858e63488cb796c9daba8b6e9ff4b3879c395022049be9a66a8e00980e612eac
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
+  faker (3.8.0) sha256=c147b308df73a90f27a4fc84f18d4c22ef0ad9c2a64b2b61c86fd0ca71753efc
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   importmap-rails (2.2.3) sha256=7101be2a4dc97cf1558fb8f573a718404c5f6bcfe94f304bf1f39e444feeb16a
