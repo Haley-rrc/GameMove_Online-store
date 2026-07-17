@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
-  # Customer product pages.
+  # Store homepage.
   root "products#index"
 
+  # Customer product pages.
   resources :products, only: [:index, :show]
+
+  # Customer category pages.
+  resources :categories, only: [:index, :show]
 end

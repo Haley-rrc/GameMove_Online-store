@@ -1,0 +1,24 @@
+<h1>Product Categories</h1>
+
+<p>Select a category to view its products.</p>
+
+<% if @categories.any? %>
+  <div class="categories">
+    <% @categories.each do |category| %>
+      <div class="category-card">
+        <h2><%= category.name %></h2>
+
+        <p><%= category.description %></p>
+
+        <p>
+          <strong>Products:</strong>
+          <%= category.products.count %>
+        </p>
+
+        <%= link_to "View Category", category_path(category) %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No categories are available.</p>
+<% end %>
