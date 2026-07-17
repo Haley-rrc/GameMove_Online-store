@@ -18,6 +18,16 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <nav class="main-nav">
+        <%= link_to "Game-Move", root_path %>
+        <%= link_to "All Products", products_path %>
+        <%= link_to "Categories", categories_path %>
+      </nav>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

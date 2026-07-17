@@ -58,3 +58,44 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+.main-nav {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #222222;
+}
+
+.main-nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.category-card {
+  padding: 18px;
+  background-color: white;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .categories {
+    grid-template-columns: 1fr;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
