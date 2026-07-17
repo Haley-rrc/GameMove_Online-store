@@ -2,9 +2,18 @@
 
 <p>Welcome to our video game store.</p>
 
+<div class="product-summary">
+  <strong>Total Products:</strong>
+  <%= @product_count %>
+</div>
+
 <% if @products.any? %>
   <div class="products">
     <%= render @products %>
+  </div>
+
+  <div class="pagination">
+    <%== @pagy.series_nav %>
   </div>
 <% else %>
   <p>No products are available.</p>

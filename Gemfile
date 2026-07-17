@@ -56,3 +56,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+# Adds pagination to product lists.
+gem "pagy"
