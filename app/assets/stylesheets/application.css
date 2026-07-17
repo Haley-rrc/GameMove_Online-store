@@ -99,3 +99,47 @@ h1 {
     gap: 10px;
   }
 }
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 10px;
+  border: 1px solid #dddddd;
+  text-align: left;
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  max-width: 500px;
+  padding: 8px;
+}
+
+.form-errors {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #cc0000;
+  background-color: #fff0f0;
+}
+
+.notice {
+  padding: 10px;
+  background-color: #e8f5e9;
+  border: 1px solid #99cc99;
+}
