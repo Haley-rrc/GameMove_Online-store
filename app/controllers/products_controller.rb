@@ -6,8 +6,8 @@ class ProductsController < ApplicationController
     # Total number of products.
     @product_count = products.count
 
-    # Show 12 products on each page.
-    @pagy, @products = pagy(:offset, products, limit: 12)
+    # Kaminari shows 12 products on each page.
+    @products = products.page(params[:page]).per(12)
   end
 
   # Show one selected product.

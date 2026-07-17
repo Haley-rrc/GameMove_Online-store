@@ -58,4 +58,4 @@ group :test do
 end
 
 # Adds pagination to product lists.
-gem "pagy"
+gem "kaminari"
