@@ -1,0 +1,11 @@
+<h1>Game-Move Online Store</h1>
+
+<p>Welcome to our video game store.</p>
+
+<% if @products.any? %>
+  <div class="products">
+    <%= render @products %>
+  </div>
+<% else %>
+  <p>No products are available.</p>
+<% end %>

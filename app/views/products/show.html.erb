@@ -1,0 +1,25 @@
+<h1><%= @product.name %></h1>
+
+<p>
+  Category:
+  <%= @product.category.name %>
+</p>
+
+<p>
+  Description:
+  <%= @product.description %>
+</p>
+
+<p>
+  Price:
+  <%= number_to_currency(@product.price) %>
+</p>
+
+<p>
+  Our Stocks:
+  <%= @product.stock_quantity %>
+</p>
+
+<p>
+  <%= link_to "Back to Products", products_path %>
+</p>

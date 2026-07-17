@@ -1,0 +1,22 @@
+<div class="product-card">
+  <h2><%= product.name %></h2>
+
+  <p>
+    Category:
+    <%= product.category.name %>
+  </p>
+
+  <p><%= truncate(product.description, length: 100) %></p>
+
+  <p>
+    Price:
+    <%= number_to_currency(product.price) %>
+  </p>
+
+  <p>
+    Stock:
+    <%= product.stock_quantity %>
+  </p>
+
+  <%= link_to "View Details", product_path(product) %>
+</div>
