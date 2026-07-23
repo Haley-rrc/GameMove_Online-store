@@ -2,6 +2,9 @@ class Product < ApplicationRecord
   # Every product belongs to one category.
   belongs_to :category
 
+  has_many :order_items
+  has_many :orders, through: :order_items
+
   # Product name is required.
   validates :name, presence: true
   validates :name, length: { minimum: 2, maximum: 100 }
