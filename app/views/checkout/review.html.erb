@@ -3,18 +3,18 @@
 <h2>Shipping Information</h2>
 
 <p>
-  <strong>Name:</strong>
+  Name:
   <%= @user.first_name %>
   <%= @user.last_name %>
 </p>
 
 <p>
-  <strong>Email:</strong>
+  Email:
   <%= @user.email %>
 </p>
 
 <p>
-  <strong>Address:</strong>
+  Address:
   <%= @user.address %>,
   <%= @user.city %>,
   <%= @province.name %>,
@@ -54,31 +54,64 @@
 
 <div class="order-totals">
   <p>
-    <strong>Subtotal:</strong>
+    Subtotal:
     <%= number_to_currency(@subtotal) %>
   </p>
 
-  <p>
-    <strong>
-      Tax (<%= number_to_percentage(
-                @province.tax_rate * 100,
-                precision: 3,
-                strip_insignificant_zeros: true
-              ) %>):
-    </strong>
+  <% if @province.gst_rate.positive? %>
+    <p>
+      GST
+      (<%= number_to_percentage(
+        @province.gst_rate * 100,
+        precision: 3,
+        strip_insignificant_zeros: true
+      ) %>):
 
+      <%= number_to_currency(@gst_amount) %>
+    </p>
+  <% end %>
+
+  <% if @province.pst_rate.positive? %>
+    <p>
+      <%= @province.code == "QC" ? "QST" : "PST" %>
+      (<%= number_to_percentage(
+        @province.pst_rate * 100,
+        precision: 3,
+        strip_insignificant_zeros: true
+      ) %>):
+
+      <%= number_to_currency(@pst_amount) %>
+    </p>
+  <% end %>
+
+  <% if @province.hst_rate.positive? %>
+    <p>
+      HST
+      (<%= number_to_percentage(
+        @province.hst_rate * 100,
+        precision: 3,
+        strip_insignificant_zeros: true
+      ) %>):
+
+      <%= number_to_currency(@hst_amount) %>
+    </p>
+  <% end %>
+
+  <p>
+    Total Tax:
     <%= number_to_currency(@tax_amount) %>
   </p>
 
   <p>
-    <strong>Total:</strong>
+    Grand Total:
     <%= number_to_currency(@total_price) %>
   </p>
 </div>
 
 <%= button_to "Place Order",
               checkout_complete_path,
-              method: :post %>
+              method: :post,
+              data: { turbo: false } %>
 
 <p>
   <%= link_to "Change Address", checkout_path %>
