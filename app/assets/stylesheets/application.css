@@ -202,3 +202,24 @@ h1 {
 .cart-quantity-form input[type="submit"] {
   width: auto;
 }
+.checkout-link {
+  display: inline-block;
+  padding: 10px 16px;
+  color: white;
+  background-color: #222222;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.checkout-link:hover {
+  background-color: #444444;
+}
+
+.order-totals {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: white;
+  border: 1px solid #dddddd;
+}

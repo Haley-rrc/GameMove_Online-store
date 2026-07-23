@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root "products#index"
 
   resources :products, only: [:index, :show]
@@ -15,6 +16,20 @@ Rails.application.routes.draw do
   delete "cart/remove/:product_id",
         to: "cart#remove",
         as: :remove_cart_item
+
+  # Checkout pages.
+  get "checkout", to: "checkout#new", as: :checkout
+
+  post "checkout/review",
+      to: "checkout#review",
+      as: :checkout_review
+
+  post "checkout/complete",
+      to: "checkout#complete",
+      as: :checkout_complete
+
+  # Completed order page.
+  resources :orders, only: [:show]
 
   namespace :admin do
     get "login", to: "sessions#new"

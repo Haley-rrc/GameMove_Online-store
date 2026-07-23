@@ -1,0 +1,86 @@
+<h1>Order Confirmation</h1>
+
+<p>
+  Thank you, <%= @order.user.first_name %>.
+  Your order was placed successfully.
+</p>
+
+<p>
+  <strong>Order Number:</strong>
+  <%= @order.id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @order.status.titleize %>
+</p>
+
+<p>
+  <strong>Order Date:</strong>
+  <%= @order.created_at.strftime("%B %d, %Y") %>
+</p>
+
+<h2>Shipping Address</h2>
+
+<p>
+  <%= @order.user.first_name %>
+  <%= @order.user.last_name %><br>
+
+  <%= @order.user.address %><br>
+
+  <%= @order.user.city %>,
+  <%= @order.user.province.code %>
+  <%= @order.user.postal_code %>
+</p>
+
+<h2>Order Items</h2>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Item Total</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+
+        <td>
+          <%= number_to_currency(item.unit_price) %>
+        </td>
+
+        <td><%= item.quantity %></td>
+
+        <td>
+          <%= number_to_currency(item.item_total) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="order-totals">
+  <p>
+    <strong>Subtotal:</strong>
+    <%= number_to_currency(@order.subtotal) %>
+  </p>
+
+  <p>
+    <strong>Tax:</strong>
+    <%= number_to_currency(@order.tax_amount) %>
+  </p>
+
+  <p>
+    <strong>Grand Total:</strong>
+    <%= number_to_currency(@order.total_price) %>
+  </p>
+</div>
+
+<p>
+  <%= link_to "Continue Shopping", products_path %>
+</p>

@@ -1,0 +1,89 @@
+<h1>Review Your Order</h1>
+
+<h2>Shipping Information</h2>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.first_name %>
+  <%= @user.last_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @user.address %>,
+  <%= @user.city %>,
+  <%= @province.name %>,
+  <%= @user.postal_code %>
+</p>
+
+<h2>Invoice</h2>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Item Total</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cart_items.each do |item| %>
+      <tr>
+        <td><%= item[:product].name %></td>
+
+        <td>
+          <%= number_to_currency(item[:product].price) %>
+        </td>
+
+        <td><%= item[:quantity] %></td>
+
+        <td>
+          <%= number_to_currency(item[:item_total]) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="order-totals">
+  <p>
+    <strong>Subtotal:</strong>
+    <%= number_to_currency(@subtotal) %>
+  </p>
+
+  <p>
+    <strong>
+      Tax (<%= number_to_percentage(
+                @province.tax_rate * 100,
+                precision: 3,
+                strip_insignificant_zeros: true
+              ) %>):
+    </strong>
+
+    <%= number_to_currency(@tax_amount) %>
+  </p>
+
+  <p>
+    <strong>Total:</strong>
+    <%= number_to_currency(@total_price) %>
+  </p>
+</div>
+
+<%= button_to "Place Order",
+              checkout_complete_path,
+              method: :post %>
+
+<p>
+  <%= link_to "Change Address", checkout_path %>
+</p>
+
+<p>
+  <%= link_to "Back to Cart", cart_path %>
+</p>
