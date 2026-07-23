@@ -36,7 +36,14 @@ class CheckoutController < ApplicationController
 
     load_cart
 
-    @user = User.new(checkout_data)
+    # Find an existing customer by email, or create a new one.
+    email = checkout_data["email"].strip.downcase
+
+    @user = User.where("LOWER(email) = ?", email).first_or_initialize
+
+    # Update the customer's current address information.
+    @user.assign_attributes(checkout_data)
+
     @province = @user.province
     calculate_totals
 

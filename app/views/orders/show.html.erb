@@ -1,13 +1,8 @@
 <h1>Order Confirmation</h1>
 
 <p>
-  Thank you, <%= @order.user.first_name %>.
-  Your order was placed successfully.
-</p>
-
-<p>
   <strong>Order Number:</strong>
-  <%= @order.id %>
+  #<%= @order.id %>
 </p>
 
 <p>
@@ -20,14 +15,23 @@
   <%= @order.created_at.strftime("%B %d, %Y") %>
 </p>
 
+<h2>Customer Information</h2>
+
+<p>
+  <strong>Name:</strong>
+  <%= @order.user.first_name %>
+  <%= @order.user.last_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @order.user.email %>
+</p>
+
 <h2>Shipping Address</h2>
 
 <p>
-  <%= @order.user.first_name %>
-  <%= @order.user.last_name %><br>
-
   <%= @order.user.address %><br>
-
   <%= @order.user.city %>,
   <%= @order.user.province.code %>
   <%= @order.user.postal_code %>
@@ -71,6 +75,15 @@
   </p>
 
   <p>
+    <strong>Tax Rate:</strong>
+    <%= number_to_percentage(
+          @order.tax_rate * 100,
+          precision: 3,
+          strip_insignificant_zeros: true
+        ) %>
+  </p>
+
+  <p>
     <strong>Tax:</strong>
     <%= number_to_currency(@order.tax_amount) %>
   </p>
@@ -80,6 +93,10 @@
     <%= number_to_currency(@order.total_price) %>
   </p>
 </div>
+
+<p>
+  <%= link_to "Back to Order History", orders_path %>
+</p>
 
 <p>
   <%= link_to "Continue Shopping", products_path %>

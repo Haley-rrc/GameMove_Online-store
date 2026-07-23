@@ -28,8 +28,8 @@ Rails.application.routes.draw do
       to: "checkout#complete",
       as: :checkout_complete
 
-  # Completed order page.
-  resources :orders, only: [:show]
+  # Customer order history and order details.
+  resources :orders, only: [:index, :show]
 
   namespace :admin do
     get "login", to: "sessions#new"

@@ -1,0 +1,64 @@
+<h1>Order History</h1>
+
+<p>All customer orders are shown below.</p>
+
+<% if @orders.any? %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Order Number</th>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Items</th>
+        <th>Tax</th>
+        <th>Grand Total</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td>#<%= order.id %></td>
+
+          <td>
+            <%= order.user.first_name %>
+            <%= order.user.last_name %>
+          </td>
+
+          <td><%= order.user.email %></td>
+
+          <td>
+            <%= order.created_at.strftime("%B %d, %Y") %>
+          </td>
+
+          <td><%= order.status.titleize %></td>
+
+          <td>
+            <%= order.order_items.sum(&:quantity) %>
+          </td>
+
+          <td>
+            <%= number_to_currency(order.tax_amount) %>
+          </td>
+
+          <td>
+            <%= number_to_currency(order.total_price) %>
+          </td>
+
+          <td>
+            <%= link_to "View Order", order_path(order) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No orders have been placed yet.</p>
+<% end %>
+
+<p>
+  <%= link_to "Continue Shopping", products_path %>
+</p>

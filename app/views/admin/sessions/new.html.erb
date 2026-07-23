@@ -2,10 +2,6 @@
 
 <p>Enter the admin username and password.</p>
 
-<% if flash[:alert].present? %>
-  <p class="alert"><%= flash[:alert] %></p>
-<% end %>
-
 <%= form_with url: admin_login_path, method: :post do |form| %>
   <div class="form-field">
     <%= form.label :username %>

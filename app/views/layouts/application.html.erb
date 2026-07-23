@@ -24,6 +24,9 @@
       <%= link_to "All Products", products_path %>
       <%= link_to "Categories", categories_path %>
       <%= link_to "Cart (#{cart_item_count})", cart_path %>
+      <% if session[:admin_user_id].present? %>
+        <%= link_to "Order History", orders_path %>
+      <% end %>
 
       <% if session[:admin_user_id].present? %>
         <%= link_to "Admin Logout",
