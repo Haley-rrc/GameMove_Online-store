@@ -38,5 +38,8 @@ Rails.application.routes.draw do
 
     resources :products
     resources :categories
-  end
+
+    # Admin can manage Canadian sales tax rates.
+    resources :provinces, only: [:index, :edit, :update]
+end
 end

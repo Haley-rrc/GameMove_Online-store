@@ -26,6 +26,7 @@
       <%= link_to "Cart (#{cart_item_count})", cart_path %>
       <% if session[:admin_user_id].present? %>
         <%= link_to "Order History", orders_path %>
+        <%= link_to "Tax Rates", admin_provinces_path %>
       <% end %>
 
       <% if session[:admin_user_id].present? %>

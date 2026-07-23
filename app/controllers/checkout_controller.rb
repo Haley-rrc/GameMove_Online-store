@@ -50,7 +50,7 @@ class CheckoutController < ApplicationController
       @order = @user.orders.create!(
         status: "pending",
         subtotal: @subtotal,
-        tax_rate: @province.tax_rate,
+        tax_rate: @province.total_tax_rate,
         tax_amount: @tax_amount,
         total_price: @total_price
       )
@@ -132,7 +132,12 @@ class CheckoutController < ApplicationController
 
   # Calculate tax and final order price.
   def calculate_totals
-    @tax_amount = (@subtotal * @province.tax_rate).round(2)
+    # Calculate each tax separately.
+    @gst_amount = (@subtotal * @province.gst_rate).round(2)
+    @pst_amount = (@subtotal * @province.pst_rate).round(2)
+    @hst_amount = (@subtotal * @province.hst_rate).round(2)
+
+    @tax_amount = @gst_amount + @pst_amount + @hst_amount
     @total_price = @subtotal + @tax_amount
   end
 

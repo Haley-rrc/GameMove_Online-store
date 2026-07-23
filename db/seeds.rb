@@ -7,28 +7,36 @@ Province.destroy_all
 Product.destroy_all
 Category.destroy_all
 
-# Canadian provinces and territories with combined tax rates.
+
+# Canadian sales tax rates.
+# Format: name, code, GST, PST/QST, HST
 province_data = [
-  ["Alberta", "AB", 0.05],
-  ["British Columbia", "BC", 0.12],
-  ["Manitoba", "MB", 0.12],
-  ["New Brunswick", "NB", 0.15],
-  ["Newfoundland and Labrador", "NL", 0.15],
-  ["Northwest Territories", "NT", 0.05],
-  ["Nova Scotia", "NS", 0.15],
-  ["Nunavut", "NU", 0.05],
-  ["Ontario", "ON", 0.13],
-  ["Prince Edward Island", "PE", 0.15],
-  ["Quebec", "QC", 0.14975],
-  ["Saskatchewan", "SK", 0.11],
-  ["Yukon", "YT", 0.05]
+  ["Alberta", "AB", 0.05, 0.00000, 0.00],
+  ["British Columbia", "BC", 0.05, 0.07000, 0.00],
+  ["Manitoba",  "MB", 0.05, 0.07000, 0.00],
+  ["New Brunswick", "NB", 0.00, 0.00000, 0.15],
+  ["Newfoundland and Labrador", "NL", 0.00, 0.00000, 0.15],
+  ["Northwest Territories", "NT", 0.05, 0.00000, 0.00],
+  ["Nova Scotia", "NS", 0.00, 0.00000, 0.14],
+  ["Nunavut", "NU", 0.05, 0.00000, 0.00],
+  ["Ontario", "ON", 0.00, 0.00000, 0.13],
+  ["Prince Edward Island", "PE", 0.00, 0.00000, 0.15],
+  ["Quebec", "QC", 0.05, 0.09975, 0.00],
+  ["Saskatchewan", "SK", 0.05, 0.06000, 0.00],
+  ["Yukon", "YT", 0.05, 0.00000, 0.00]
 ]
 
-province_data.each do |name, code, tax_rate|
-  Province.create!(
+province_data.each do |name, code, gst, pst, hst|
+  province = Province.find_or_initialize_by(code: code)
+
+  province.update!(
     name: name,
-    code: code,
-    tax_rate: tax_rate
+    gst_rate: gst,
+    pst_rate: pst,
+    hst_rate: hst,
+
+    # Keep the old field updated for old records/code.
+    tax_rate: gst + pst + hst
   )
 end
 

@@ -1,5 +1,4 @@
 class Province < ApplicationRecord
-  # One province can be used by many customers.
   has_many :users
 
   validates :name,
@@ -12,10 +11,17 @@ class Province < ApplicationRecord
             length: { is: 2 },
             format: { with: /\A[A-Z]{2}\z/ }
 
-  validates :tax_rate,
+  validates :gst_rate,
+            :pst_rate,
+            :hst_rate,
             presence: true,
             numericality: {
               greater_than_or_equal_to: 0,
               less_than_or_equal_to: 1
             }
+
+  # Add all applicable sales taxes.
+  def total_tax_rate
+    gst_rate + pst_rate + hst_rate
+  end
 end

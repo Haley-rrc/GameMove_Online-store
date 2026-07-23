@@ -1,0 +1,53 @@
+<h1>Edit Tax Rates</h1>
+
+<h2>
+  <%= @province.name %>
+  (<%= @province.code %>)
+</h2>
+
+<%= form_with model: [:admin, @province] do |form| %>
+  <% if @province.errors.any? %>
+    <div class="form-errors">
+      <ul>
+        <% @province.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    Enter rates as decimals. For example, enter
+    <strong>0.05</strong> for 5%.
+  </p>
+
+  <div class="form-field">
+    <%= form.label :gst_rate, "GST Rate" %>
+    <%= form.number_field :gst_rate,
+                          step: 0.00001,
+                          min: 0,
+                          max: 1 %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :pst_rate, "PST/QST Rate" %>
+    <%= form.number_field :pst_rate,
+                          step: 0.00001,
+                          min: 0,
+                          max: 1 %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :hst_rate, "HST Rate" %>
+    <%= form.number_field :hst_rate,
+                          step: 0.00001,
+                          min: 0,
+                          max: 1 %>
+  </div>
+
+  <%= form.submit "Update Tax Rates" %>
+<% end %>
+
+<p>
+  <%= link_to "Back to Tax Rates", admin_provinces_path %>
+</p>

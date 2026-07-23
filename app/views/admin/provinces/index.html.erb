@@ -1,0 +1,65 @@
+<h1>Canadian Sales Tax Rates</h1>
+
+<p>
+  If you are an admin, you can change the tax rates for each province or territory here.
+</p>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Province</th>
+      <th>Code</th>
+      <th>GST</th>
+      <th>PST/QST</th>
+      <th>HST</th>
+      <th>Total Tax</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @provinces.each do |province| %>
+      <tr>
+        <td><%= province.name %></td>
+        <td><%= province.code %></td>
+
+        <td>
+          <%= number_to_percentage(
+            province.gst_rate * 100,
+            precision: 3,
+            strip_insignificant_zeros: true
+          ) %>
+        </td>
+
+        <td>
+          <%= number_to_percentage(
+            province.pst_rate * 100,
+            precision: 3,
+            strip_insignificant_zeros: true
+          ) %>
+        </td>
+
+        <td>
+          <%= number_to_percentage(
+            province.hst_rate * 100,
+            precision: 3,
+            strip_insignificant_zeros: true
+          ) %>
+        </td>
+
+        <td>
+          <%= number_to_percentage(
+            province.total_tax_rate * 100,
+            precision: 3,
+            strip_insignificant_zeros: true
+          ) %>
+        </td>
+
+        <td>
+          <%= link_to "Edit Tax Rates",
+                      edit_admin_province_path(province) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
