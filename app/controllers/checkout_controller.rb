@@ -36,13 +36,8 @@ class CheckoutController < ApplicationController
 
     load_cart
 
-    # Find an existing customer by email, or create a new one.
-    email = checkout_data["email"].strip.downcase
-
-    @user = User.where("LOWER(email) = ?", email).first_or_initialize
-
-    # Update the customer's current address information.
-    @user.assign_attributes(checkout_data)
+    # Create a new customer record for this checkout.
+    @user = User.new(checkout_data)
 
     @province = @user.province
     calculate_totals
@@ -84,6 +79,9 @@ class CheckoutController < ApplicationController
         )
       end
     end
+
+    # Allow the customer to view this new order one time.
+    session[:new_order_id] = @order.id
 
     # Clear shopping cart and checkout information.
     session.delete(:cart)

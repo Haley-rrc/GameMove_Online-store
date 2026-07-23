@@ -94,9 +94,11 @@
   </p>
 </div>
 
-<p>
-  <%= link_to "Back to Order History", orders_path %>
-</p>
+<% if session[:admin_user_id].present? %>
+  <p>
+    <%= link_to "Back to Order History", orders_path %>
+  </p>
+<% end %>
 
 <p>
   <%= link_to "Continue Shopping", products_path %>
