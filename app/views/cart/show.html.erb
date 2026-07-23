@@ -8,6 +8,7 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Item Total</th>
+        <th>Remove</th>
       </tr>
     </thead>
 
@@ -24,11 +25,30 @@
           </td>
 
           <td>
-            <%= item[:quantity] %>
+            <%= form_with url: update_cart_item_path(item[:product]),
+                          method: :patch,
+                          class: "cart-quantity-form" do |form| %>
+
+              <%= form.number_field :quantity,
+                                    value: item[:quantity],
+                                    min: 1,
+                                    max: item[:product].stock_quantity %>
+
+              <%= form.submit "Update" %>
+            <% end %>
           </td>
 
           <td>
             <%= number_to_currency(item[:item_total]) %>
+          </td>
+
+          <td>
+            <%= button_to "Remove",
+                          remove_cart_item_path(item[:product]),
+                          method: :delete,
+                          data: {
+                            turbo_confirm: "Remove this item from the cart?"
+                          } %>
           </td>
         </tr>
       <% end %>

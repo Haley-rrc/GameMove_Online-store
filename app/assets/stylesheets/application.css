@@ -187,3 +187,18 @@ h1 {
   padding: 8px 12px;
   cursor: pointer;
 }
+
+.cart-quantity-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cart-quantity-form input {
+  width: 70px;
+  padding: 6px;
+}
+
+.cart-quantity-form input[type="submit"] {
+  width: auto;
+}
