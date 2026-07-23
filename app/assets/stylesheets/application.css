@@ -178,3 +178,12 @@ h1 {
   background-color: #fff0f0;
   border: 1px solid #cc9999;
 }
+
+.product-card form {
+  margin-top: 10px;
+}
+
+.product-card button {
+  padding: 8px 12px;
+  cursor: pointer;
+}

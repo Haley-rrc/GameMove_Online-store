@@ -1,0 +1,48 @@
+<h1>Shopping Cart</h1>
+
+<% if @cart_items.any? %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Item Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @cart_items.each do |item| %>
+        <tr>
+          <td>
+            <%= link_to item[:product].name,
+                        product_path(item[:product]) %>
+          </td>
+
+          <td>
+            <%= number_to_currency(item[:product].price) %>
+          </td>
+
+          <td>
+            <%= item[:quantity] %>
+          </td>
+
+          <td>
+            <%= number_to_currency(item[:item_total]) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2>
+    Cart Total:
+    <%= number_to_currency(@cart_total) %>
+  </h2>
+<% else %>
+  <p>Your shopping cart is empty.</p>
+<% end %>
+
+<p>
+  <%= link_to "Continue Shopping", products_path %>
+</p>

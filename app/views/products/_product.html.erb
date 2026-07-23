@@ -18,5 +18,9 @@
     <%= product.stock_quantity %>
   </p>
 
+  <%= button_to "Add to Cart",
+              add_to_cart_path(product),
+              method: :post %>
+
   <%= link_to "View Details", product_path(product) %>
 </div>
