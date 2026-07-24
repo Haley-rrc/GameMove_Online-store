@@ -24,11 +24,22 @@
           <td>#<%= order.id %></td>
 
           <td>
-            <%= order.customer.first_name %>
-            <%= order.customer.last_name %>
+            <% if order.customer.present? %>
+              <%= order.customer.first_name %>
+              <%= order.customer.last_name %>
+            <% else %>
+              <%= order.first_name %>
+              <%= order.last_name %>
+            <% end %>
           </td>
 
-          <td><%= order.customer.email %></td>
+          <td>
+            <% if order.customer.present? %>
+              <%= order.customer.email %>
+            <% else %>
+              <%= order.email %>
+            <% end %>
+          </td>
 
           <td>
             <%= order.created_at.strftime("%B %d, %Y") %>

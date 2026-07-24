@@ -3,13 +3,13 @@ class CheckoutController < ApplicationController
 
   # Show the customer information form.
   def new
-    @customer = User.new
+    @customer = Customer.new
     load_cart
   end
 
-  # Show the order invoice before saving the order.
+  # Show the invoice before saving the order.
   def review
-    @customer = User.new(user_params)
+    @customer = Customer.new(customer_params)
     load_cart
 
     unless @customer.valid?
@@ -20,13 +20,13 @@ class CheckoutController < ApplicationController
     @province = @customer.province
     calculate_totals
 
-    # Temporarily save customer information in the session.
-    session[:checkout_user] = user_params.to_h
+    # Temporarily save checkout information.
+    session[:checkout_customer] = customer_params.to_h
   end
 
   # Save the customer, order and order items.
   def complete
-    checkout_data = session[:checkout_user]
+    checkout_data = session[:checkout_customer]
 
     unless checkout_data.present?
       redirect_to checkout_path,
@@ -36,42 +36,42 @@ class CheckoutController < ApplicationController
 
     load_cart
 
-    # Create a new customer record for this checkout.
-    @customer = User.new(checkout_data)
+    # Create a new customer for this checkout.
+    @customer = Customer.new(checkout_data)
 
     @province = @customer.province
     calculate_totals
 
     ActiveRecord::Base.transaction do
-      # Save customer information.
+      # Save the customer in the customers table.
       @customer.save!
 
-      # Save the main order.
+      # Save the order and associate it with the customer.
       @order = @customer.orders.create!(
-      status: "pending",
+        status: "pending",
 
-      # Save customer and address details for this order.
-      first_name: @customer.first_name,
-      last_name: @customer.last_name,
-      email: @customer.email,
-      address: @customer.address,
-      city: @customer.city,
-      postal_code: @customer.postal_code,
-      province_name: @province.name,
-      province_code: @province.code,
+        # Save address details with the order.
+        first_name: @customer.first_name,
+        last_name: @customer.last_name,
+        email: @customer.email,
+        address: @customer.address,
+        city: @customer.city,
+        postal_code: @customer.postal_code,
+        province_name: @province.name,
+        province_code: @province.code,
 
-      # Save invoice totals.
-      subtotal: @subtotal,
-      tax_rate: @province.total_tax_rate,
-      tax_amount: @tax_amount,
-      total_price: @total_price
-    )
+        # Save invoice totals.
+        subtotal: @subtotal,
+        tax_rate: @province.total_tax_rate,
+        tax_amount: @tax_amount,
+        total_price: @total_price
+      )
+
       # Save every product in the order.
       @cart_items.each do |item|
         product = item[:product]
         quantity = item[:quantity]
 
-        # Stop checkout when there is not enough stock.
         if quantity > product.stock_quantity
           raise StandardError,
                 "#{product.name} does not have enough stock."
@@ -84,25 +84,26 @@ class CheckoutController < ApplicationController
           item_total: item[:item_total]
         )
 
-        # Reduce stock after the order is saved.
         product.update!(
           stock_quantity: product.stock_quantity - quantity
         )
       end
     end
 
-    # Allow the customer to view this new order one time.
+    # Allow one-time access to the new order.
     session[:new_order_id] = @order.id
 
-    # Clear shopping cart and checkout information.
+    # Clear checkout data.
     session.delete(:cart)
-    session.delete(:checkout_user)
+    session.delete(:checkout_customer)
 
     redirect_to order_path(@order),
                 notice: "Your order was placed successfully."
+
   rescue ActiveRecord::RecordInvalid => error
     redirect_to checkout_path,
                 alert: error.record.errors.full_messages.to_sentence
+
   rescue StandardError => error
     redirect_to cart_path,
                 alert: error.message
@@ -110,7 +111,7 @@ class CheckoutController < ApplicationController
 
   private
 
-  # Prevent checkout when the shopping cart is empty.
+  # Prevent checkout when the cart is empty.
   def require_cart
     return if session[:cart].present?
 
@@ -118,7 +119,7 @@ class CheckoutController < ApplicationController
                 alert: "Your shopping cart is empty."
   end
 
-  # Read shopping cart data from the session.
+  # Read shopping cart information.
   def load_cart
     cart = session[:cart] || {}
 
@@ -141,20 +142,27 @@ class CheckoutController < ApplicationController
     end
   end
 
-  # Calculate tax and final order price.
+  # Calculate GST, PST/QST and HST.
   def calculate_totals
-    # Calculate each tax separately.
-    @gst_amount = (@subtotal * @province.gst_rate).round(2)
-    @pst_amount = (@subtotal * @province.pst_rate).round(2)
-    @hst_amount = (@subtotal * @province.hst_rate).round(2)
+    @gst_amount =
+      (@subtotal * @province.gst_rate).round(2)
 
-    @tax_amount = @gst_amount + @pst_amount + @hst_amount
-    @total_price = @subtotal + @tax_amount
+    @pst_amount =
+      (@subtotal * @province.pst_rate).round(2)
+
+    @hst_amount =
+      (@subtotal * @province.hst_rate).round(2)
+
+    @tax_amount =
+      @gst_amount + @pst_amount + @hst_amount
+
+    @total_price =
+      @subtotal + @tax_amount
   end
 
   # Only allow customer checkout fields.
-  def user_params
-    params.require(:user).permit(
+  def customer_params
+    params.require(:customer).permit(
       :first_name,
       :last_name,
       :email,
