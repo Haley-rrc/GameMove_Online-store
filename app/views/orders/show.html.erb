@@ -18,23 +18,23 @@
 <h2>Customer Information</h2>
 
 <p>
-  <strong>Name:</strong>
-  <%= @order.user.first_name %>
-  <%= @order.user.last_name %>
+  Name:
+  <%= @order.first_name %>
+  <%= @order.last_name %>
 </p>
 
 <p>
-  <strong>Email:</strong>
-  <%= @order.user.email %>
+  Email:
+  <%= @order.email %>
 </p>
 
 <h2>Shipping Address</h2>
 
 <p>
-  <%= @order.user.address %><br>
-  <%= @order.user.city %>,
-  <%= @order.user.province.code %>
-  <%= @order.user.postal_code %>
+  <%= @order.address %><br>
+  <%= @order.city %>,
+  <%= @order.province_code %>
+  <%= @order.postal_code %>
 </p>
 
 <h2>Order Items</h2>

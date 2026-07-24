@@ -48,13 +48,24 @@ class CheckoutController < ApplicationController
 
       # Save the main order.
       @order = @user.orders.create!(
-        status: "pending",
-        subtotal: @subtotal,
-        tax_rate: @province.total_tax_rate,
-        tax_amount: @tax_amount,
-        total_price: @total_price
-      )
+      status: "pending",
 
+      # Save customer and address details for this order.
+      first_name: @user.first_name,
+      last_name: @user.last_name,
+      email: @user.email,
+      address: @user.address,
+      city: @user.city,
+      postal_code: @user.postal_code,
+      province_name: @province.name,
+      province_code: @province.code,
+
+      # Save invoice totals.
+      subtotal: @subtotal,
+      tax_rate: @province.total_tax_rate,
+      tax_amount: @tax_amount,
+      total_price: @total_price
+    )
       # Save every product in the order.
       @cart_items.each do |item|
         product = item[:product]
