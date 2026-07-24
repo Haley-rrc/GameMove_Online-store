@@ -1,56 +1,51 @@
 <h1>Checkout</h1>
 
-<h2>Customer Information</h2>
-
-<%= form_with model: @user,
+<%= form_with model: @customer,
               url: checkout_review_path,
               method: :post,
               data: { turbo: false } do |form| %>
 
-  <% if @user.errors.any? %>
-    <div class="form-errors">
-      <h2>Please fix these errors:</h2>
-
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+  <% if @customer.errors.any? %>
+    <ul>
+      <% @customer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
   <% end %>
 
-  <div class="form-field">
+  <p>
     <%= form.label :first_name %>
-    <%= form.text_field :first_name %>
-  </div>
+    <%= form.text_field :first_name, required: true %>
+  </p>
 
-  <div class="form-field">
+  <p>
     <%= form.label :last_name %>
-    <%= form.text_field :last_name %>
-  </div>
+    <%= form.text_field :last_name, required: true %>
+  </p>
 
-  <div class="form-field">
+  <p>
     <%= form.label :email %>
-    <%= form.email_field :email %>
-  </div>
+    <%= form.email_field :email, required: true %>
+  </p>
 
-  <div class="form-field">
+  <p>
     <%= form.label :address %>
-    <%= form.text_area :address, rows: 3 %>
-  </div>
+    <%= form.text_field :address, required: true %>
+  </p>
 
-  <div class="form-field">
+  <p>
     <%= form.label :city %>
-    <%= form.text_field :city %>
-  </div>
+    <%= form.text_field :city, required: true %>
+  </p>
 
-  <div class="form-field">
+  <p>
     <%= form.label :postal_code %>
     <%= form.text_field :postal_code,
-                        placeholder: "R3C 0V8" %>
-  </div>
+                        placeholder: "R3C 0V8",
+                        required: true %>
+  </p>
 
-  <div class="form-field">
+  <p>
     <%= form.label :province_id, "Province" %>
 
     <%= form.collection_select(
@@ -58,42 +53,10 @@
           Province.order(:name),
           :id,
           :name,
-          prompt: "Select a province"
+          { prompt: "Select a province" },
+          { required: true }
         ) %>
-  </div>
+  </p>
 
-  <div class="form-actions">
-    <%= form.submit "Review and Submit Order" %>
-  </div>
+  <%= form.submit "Review Order" %>
 <% end %>
-
-<h2>Cart Summary</h2>
-
-<table class="admin-table">
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Item Total</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @cart_items.each do |item| %>
-      <tr>
-        <td><%= item[:product].name %></td>
-        <td><%= item[:quantity] %></td>
-        <td><%= number_to_currency(item[:item_total]) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<h3>
-  Subtotal:
-  <%= number_to_currency(@subtotal) %>
-</h3>
-
-<p>
-  <%= link_to "Back to Cart", cart_path %>
-</p>

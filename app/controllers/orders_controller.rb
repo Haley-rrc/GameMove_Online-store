@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
   # Show all orders to the administrator.
   def index
     @orders = Order.includes(
-      :user,
+      :customer,
       order_items: :product
     ).order(created_at: :desc)
   end

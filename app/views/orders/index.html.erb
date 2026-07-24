@@ -24,11 +24,11 @@
           <td>#<%= order.id %></td>
 
           <td>
-            <%= order.user.first_name %>
-            <%= order.user.last_name %>
+            <%= order.customer.first_name %>
+            <%= order.customer.last_name %>
           </td>
 
-          <td><%= order.user.email %></td>
+          <td><%= order.customer.email %></td>
 
           <td>
             <%= order.created_at.strftime("%B %d, %Y") %>

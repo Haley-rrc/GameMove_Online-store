@@ -3,21 +3,21 @@ class CheckoutController < ApplicationController
 
   # Show the customer information form.
   def new
-    @user = User.new
+    @customer = User.new
     load_cart
   end
 
   # Show the order invoice before saving the order.
   def review
-    @user = User.new(user_params)
+    @customer = User.new(user_params)
     load_cart
 
-    unless @user.valid?
+    unless @customer.valid?
       render :new, status: :unprocessable_entity
       return
     end
 
-    @province = @user.province
+    @province = @customer.province
     calculate_totals
 
     # Temporarily save customer information in the session.
@@ -37,26 +37,26 @@ class CheckoutController < ApplicationController
     load_cart
 
     # Create a new customer record for this checkout.
-    @user = User.new(checkout_data)
+    @customer = User.new(checkout_data)
 
-    @province = @user.province
+    @province = @customer.province
     calculate_totals
 
     ActiveRecord::Base.transaction do
       # Save customer information.
-      @user.save!
+      @customer.save!
 
       # Save the main order.
-      @order = @user.orders.create!(
+      @order = @customer.orders.create!(
       status: "pending",
 
       # Save customer and address details for this order.
-      first_name: @user.first_name,
-      last_name: @user.last_name,
-      email: @user.email,
-      address: @user.address,
-      city: @user.city,
-      postal_code: @user.postal_code,
+      first_name: @customer.first_name,
+      last_name: @customer.last_name,
+      email: @customer.email,
+      address: @customer.address,
+      city: @customer.city,
+      postal_code: @customer.postal_code,
       province_name: @province.name,
       province_code: @province.code,
 
