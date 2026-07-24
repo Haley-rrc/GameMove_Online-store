@@ -1,26 +1,30 @@
 <div class="product-card">
+  <% if product.image.attached? %>
+    <%= image_tag product.image,
+                  alt: product.name,
+                  class: "product-image" %>
+  <% else %>
+    <div class="product-image-placeholder">
+      No Image
+    </div>
+  <% end %>
+
   <h2><%= product.name %></h2>
 
   <p>
-    Category:
-    <%= product.category.name %>
-  </p>
-
-  <p><%= truncate(product.description, length: 100) %></p>
-
-  <p>
-    Price:
     <%= number_to_currency(product.price) %>
   </p>
 
-  <p>
-    Stock:
-    <%= product.stock_quantity %>
-  </p>
+    <p>
+      Stock:
+      <%= product.stock_quantity %>
+    </p>
 
   <%= button_to "Add to Cart",
               add_to_cart_path(product),
               method: :post %>
 
-  <%= link_to "View Details", product_path(product) %>
+  <p>
+    <%= link_to "View Product", product_path(product) %>
+  </p>
 </div>

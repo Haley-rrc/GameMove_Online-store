@@ -73,7 +73,8 @@ class Admin::ProductsController < ApplicationController
       :name,
       :description,
       :price,
-      :stock_quantity
+      :stock_quantity,
+      :image
     )
   end
 end

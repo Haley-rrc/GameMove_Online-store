@@ -40,6 +40,20 @@
     <%= form.number_field :stock_quantity, min: 0 %>
   </div>
 
+  <p>
+    <%= form.label :image, "Product Image" %>
+    <%= form.file_field :image,
+                        accept: "image/png,image/jpeg,image/webp" %>
+  </p>
+
+  <% if product.image.attached? %>
+    <p>Current Image:</p>
+
+    <%= image_tag product.image,
+                  alt: product.name,
+                  style: "max-width: 250px; height: auto;" %>
+  <% end %>
+
   <div class="form-actions">
     <%= form.submit %>
   </div>

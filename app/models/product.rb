@@ -2,6 +2,8 @@ class Product < ApplicationRecord
   # Every product belongs to one category.
   belongs_to :category
 
+  has_one_attached :image
+
   has_many :order_items
   has_many :orders, through: :order_items
 
