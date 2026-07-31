@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_31_055307) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_31_083220) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_31_055307) do
     t.bigint "province_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
+    t.string "encrypted_password"
     t.index ["province_id"], name: "index_customers_on_province_id"
   end
 

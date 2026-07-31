@@ -3,13 +3,24 @@ class CheckoutController < ApplicationController
 
   # Show the customer information form.
   def new
-    @customer = Customer.new
+    if customer_signed_in?
+      @customer = current_customer
+    else
+      @customer = Customer.new
+    end
+
     load_cart
   end
 
   # Show the invoice before saving the order.
   def review
-    @customer = Customer.new(customer_params)
+    if customer_signed_in?
+      @customer = current_customer
+      @customer.assign_attributes(customer_params)
+    else
+      @customer = Customer.new(customer_params)
+    end
+
     load_cart
 
     unless @customer.valid?
@@ -20,7 +31,6 @@ class CheckoutController < ApplicationController
     @province = @customer.province
     calculate_totals
 
-    # Temporarily save checkout information.
     session[:checkout_customer] = customer_params.to_h
   end
 
@@ -37,7 +47,12 @@ class CheckoutController < ApplicationController
     load_cart
 
     # Create a new customer for this checkout.
-    @customer = Customer.new(checkout_data)
+    if customer_signed_in?
+      @customer = current_customer
+      @customer.assign_attributes(checkout_data)
+    else
+      @customer = Customer.new(checkout_data)
+    end
 
     @province = @customer.province
     calculate_totals

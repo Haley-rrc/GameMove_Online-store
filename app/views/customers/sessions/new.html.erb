@@ -1,0 +1,31 @@
+<h1>Customer Login</h1>
+
+<%= form_with model: resource,
+              as: resource_name,
+              url: session_path(resource_name),
+              data: { turbo: false } do |form| %>
+
+  <p>
+    <%= form.label :username %>
+
+    <%= form.text_field :username,
+                        autofocus: true,
+                        autocomplete: "username",
+                        required: true %>
+  </p>
+
+  <p>
+    <%= form.label :password %>
+
+    <%= form.password_field :password,
+                            autocomplete: "current-password",
+                            required: true %>
+  </p>
+
+  <%= form.submit "Login" %>
+<% end %>
+
+<p>
+  <%= link_to "Create Account",
+              new_customer_registration_path %>
+</p>

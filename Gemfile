@@ -61,3 +61,5 @@ end
 gem "kaminari"
 
 gem "activeadmin"
+
+gem "devise"

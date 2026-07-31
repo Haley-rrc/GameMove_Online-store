@@ -1,0 +1,85 @@
+<h1>Create Customer Account</h1>
+
+<%= form_with model: resource,
+              as: resource_name,
+              url: registration_path(resource_name),
+              data: { turbo: false } do |form| %>
+
+  <%= render "customers/shared/error_messages",
+             resource: resource %>
+
+  <p>
+    <%= form.label :username %>
+    <%= form.text_field :username,
+                        autofocus: true,
+                        required: true %>
+  </p>
+
+  <p>
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name, required: true %>
+  </p>
+
+  <p>
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name, required: true %>
+  </p>
+
+  <p>
+    <%= form.label :email %>
+    <%= form.email_field :email, required: true %>
+  </p>
+
+  <p>
+    <%= form.label :address %>
+    <%= form.text_field :address, required: true %>
+  </p>
+
+  <p>
+    <%= form.label :city %>
+    <%= form.text_field :city, required: true %>
+  </p>
+
+  <p>
+    <%= form.label :postal_code %>
+    <%= form.text_field :postal_code,
+                        placeholder: "R3C 0V8",
+                        required: true %>
+  </p>
+
+  <p>
+    <%= form.label :province_id, "Province" %>
+
+    <%= form.collection_select(
+          :province_id,
+          Province.order(:name),
+          :id,
+          :name,
+          { prompt: "Select a province" },
+          { required: true }
+        ) %>
+  </p>
+
+  <p>
+    <%= form.label :password %>
+
+    <%= form.password_field :password,
+                            autocomplete: "new-password",
+                            required: true %>
+  </p>
+
+  <p>
+    <%= form.label :password_confirmation %>
+
+    <%= form.password_field :password_confirmation,
+                            autocomplete: "new-password",
+                            required: true %>
+  </p>
+
+  <%= form.submit "Create Account" %>
+<% end %>
+
+<p>
+  <%= link_to "Already have an account? Login",
+              new_customer_session_path %>
+</p>

@@ -34,6 +34,14 @@ Rails.application.routes.draw do
   get "about", to: "pages#about", as: :about
   get "contact", to: "pages#contact", as: :contact
 
+ devise_for :customers,
+            path: "account",
+            path_names: {
+                sign_in: "login",
+                sign_out: "logout",
+                sign_up: "register"
+            }
+
   namespace :admin do
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
