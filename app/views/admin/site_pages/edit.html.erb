@@ -1,0 +1,37 @@
+<h1>Edit Website Page</h1>
+
+<p>
+  Page:
+  <%= @site_page.page_key.capitalize %>
+</p>
+
+<%= form_with model: [:admin, @site_page],
+              data: { turbo: false } do |form| %>
+
+  <% if @site_page.errors.any? %>
+    <ul>
+      <% @site_page.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <p>
+    <%= form.label :title %>
+    <%= form.text_field :title, required: true %>
+  </p>
+
+  <p>
+    <%= form.label :content %>
+    <%= form.text_area :content,
+                       rows: 15,
+                       required: true %>
+  </p>
+
+  <%= form.submit "Update Page" %>
+<% end %>
+
+<p>
+  <%= link_to "Back to Website Pages",
+              admin_site_pages_path %>
+</p>

@@ -59,3 +59,5 @@ end
 
 # Adds pagination to product lists.
 gem "kaminari"
+
+gem "activeadmin"

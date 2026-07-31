@@ -24,6 +24,8 @@
       <%= link_to "All Products", products_path %>
       <%= link_to "Categories", categories_path %>
       <%= link_to "Cart (#{cart_item_count})", cart_path %>
+      <%= link_to "About", about_path %>
+      <%= link_to "Contact", contact_path %>
       <% if session[:admin_user_id].present? %>
         <%= link_to "Order History", orders_path %>
         <%= link_to "Tax Rates", admin_provinces_path %>
@@ -33,6 +35,7 @@
         <%= link_to "Admin Logout",
                     admin_logout_path,
                     data: { turbo_method: :delete } %>
+        <%= link_to "Website Pages", admin_site_pages_path %>
       <% else %>
         <%= link_to "Admin Login", admin_login_path %>
       <% end %>
