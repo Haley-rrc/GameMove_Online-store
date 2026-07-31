@@ -244,3 +244,30 @@ h1 {
   justify-content: center;
   background-color: #eeeeee;
 }
+
+.product-search {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid #dddddd;
+  background-color: #f7f7f7;
+}
+
+.product-search h2 {
+  margin-top: 0;
+}
+
+.product-search p {
+  margin-bottom: 12px;
+}
+
+.product-search input,
+.product-search select {
+  padding: 8px;
+  margin-left: 8px;
+}
+
+.search-result-info {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #dddddd;
+}

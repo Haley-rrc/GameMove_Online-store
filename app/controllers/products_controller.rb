@@ -1,13 +1,35 @@
 class ProductsController < ApplicationController
   # Show products on the store homepage.
   def index
-    products = Product.includes(:category).order(:name)
+    @categories = Category.order(:name)
 
-    # Total number of products.
-    @product_count = products.count
+    @products = Product
+                  .includes(:category)
+                  .order(:name)
 
-    # Kaminari shows 12 products on each page.
-    @products = products.page(params[:page]).per(12)
+    # Search product title or description.
+    if params[:keyword].present?
+      keyword = Product.sanitize_sql_like(
+        params[:keyword].strip
+      )
+
+      @products = @products.where(
+        "products.name ILIKE :keyword OR products.description ILIKE :keyword",
+        keyword: "%#{keyword}%"
+      )
+    end
+
+    # Filter products by category.
+    if params[:category_id].present?
+      @products = @products.where(
+        category_id: params[:category_id]
+      )
+    end
+
+    # Count products before pagination.
+    @product_count = @products.count
+
+    @products = @products.page(params[:page]).per(12)
   end
 
   # Show one selected product.
