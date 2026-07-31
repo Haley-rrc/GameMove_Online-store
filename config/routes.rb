@@ -31,6 +31,9 @@ Rails.application.routes.draw do
   # Customer order history and order details.
   resources :orders, only: [:index, :show]
 
+  get "about", to: "pages#about", as: :about
+  get "contact", to: "pages#contact", as: :contact
+
   namespace :admin do
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"

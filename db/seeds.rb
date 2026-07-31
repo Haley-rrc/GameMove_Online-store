@@ -77,3 +77,24 @@ puts "Seed data created successfully."
 puts "#{Province.count} provinces created."
 puts "#{Category.count} categories created."
 puts "#{Product.count} products created."
+
+SitePage.find_or_create_by!(page_key: "about") do |page|
+  page.title = "About Game Move"
+  page.content = <<~TEXT
+    Game Move is an online video game store.
+
+    We sell games for different consoles and platforms.
+    Our goal is to make shopping simple and easy.
+  TEXT
+end
+
+SitePage.find_or_create_by!(page_key: "contact") do |page|
+  page.title = "Contact Us"
+  page.content = <<~TEXT
+    Email: support@gamemove.ca
+
+    Phone: 204-555-1234
+
+    Address: Winnipeg, Manitoba, Canada
+  TEXT
+end

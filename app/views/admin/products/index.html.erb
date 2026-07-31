@@ -21,6 +21,8 @@
         <td><%= product.category.name %></td>
         <td><%= number_to_currency(product.price) %></td>
         <td><%= product.stock_quantity %></td>
+        <%= link_to "About", about_path %>
+        <%= link_to "Contact", contact_path %>
         <td>
           <%= link_to "View", admin_product_path(product) %>
           <%= link_to "Edit", edit_admin_product_path(product) %>
