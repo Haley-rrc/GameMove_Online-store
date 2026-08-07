@@ -11,9 +11,23 @@
 
   <h2><%= product.name %></h2>
 
-  <p>
-    <%= number_to_currency(product.price) %>
-  </p>
+  <% if product.on_sale? && product.sale_price.present? %>
+    <p class="sale-label">SALE</p>
+
+    <p class="product-price">
+      <span class="old-price">
+        <%= number_to_currency(product.price) %>
+      </span>
+
+      <span class="sale-price">
+        <%= number_to_currency(product.sale_price) %>
+      </span>
+    </p>
+  <% else %>
+    <p class="product-price">
+      <%= number_to_currency(product.price) %>
+    </p>
+  <% end %>
 
     <p>
       Stock:

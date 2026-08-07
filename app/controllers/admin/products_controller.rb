@@ -69,12 +69,14 @@ class Admin::ProductsController < ApplicationController
   # Only allow these form fields.
   def product_params
     params.require(:product).permit(
-      :category_id,
       :name,
       :description,
       :price,
       :stock_quantity,
-      :image
+      :category_id,
+      :image,
+      :on_sale,
+      :sale_price
     )
   end
 end

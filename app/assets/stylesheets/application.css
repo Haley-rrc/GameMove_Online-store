@@ -271,3 +271,25 @@ h1 {
   padding: 12px;
   border: 1px solid #dddddd;
 }
+
+.sale-label {
+  display: inline-block;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  padding: 4px 10px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #777;
+  margin-right: 10px;
+}
+
+.sale-price {
+  color: red;
+  font-weight: bold;
+  font-size: 1.2em;
+}

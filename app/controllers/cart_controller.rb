@@ -63,7 +63,7 @@ class CartController < ApplicationController
       {
         product: product,
         quantity: quantity.to_i,
-        item_total: product.price * quantity.to_i
+        item_total: product.current_price * quantity.to_i
       }
     end.compact
 

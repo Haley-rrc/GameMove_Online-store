@@ -95,7 +95,7 @@ class CheckoutController < ApplicationController
         @order.order_items.create!(
           product: product,
           quantity: quantity,
-          unit_price: product.price,
+          unit_price: product.current_price,
           item_total: item[:item_total]
         )
 
@@ -148,7 +148,7 @@ class CheckoutController < ApplicationController
       {
         product: product,
         quantity: quantity,
-        item_total: product.price * quantity
+        item_total: product.current_price * quantity
       }
     end.compact
 

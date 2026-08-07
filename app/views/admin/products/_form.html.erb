@@ -41,6 +41,18 @@
   </div>
 
   <p>
+    <%= form.label :on_sale, "On Sale" %>
+    <%= form.check_box :on_sale %>
+  </p>
+
+  <p>
+    <%= form.label :sale_price, "Sale Price" %>
+    <%= form.number_field :sale_price,
+                          step: 0.01,
+                          min: 0 %>
+  </p>
+
+  <p>
     <%= form.label :image, "Product Image" %>
     <%= form.file_field :image,
                         accept: "image/png,image/jpeg,image/webp" %>
