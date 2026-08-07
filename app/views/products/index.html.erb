@@ -14,9 +14,12 @@
     <%= render @products %>
   </div>
 
-  <div class="pagination">
-    <%= paginate @products %>
-  </div>
-<% else %>
+  <%= paginate @products,
+              params: {
+                keyword: params[:keyword],
+                category_id: params[:category_id],
+                filter: params[:filter]
+              } %>
+  <% else %>
   <p>No products are available.</p>
 <% end %>

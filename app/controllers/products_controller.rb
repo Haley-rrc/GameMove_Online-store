@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
                   .includes(:category)
                   .order(:name)
 
-    # Search product title or description.
+    # Keyword search.
     if params[:keyword].present?
       keyword = Product.sanitize_sql_like(
         params[:keyword].strip
@@ -18,6 +18,29 @@ class ProductsController < ApplicationController
         keyword: "%#{keyword}%"
       )
     end
+
+    # Category search.
+    if params[:category_id].present?
+      @products = @products.where(
+        category_id: params[:category_id]
+      )
+    end
+
+    # Product filters for feature 2.4.
+    case params[:filter]
+    when "new"
+      @products = @products.new_products
+
+    when "updated"
+      @products = @products.recently_updated
+    end
+
+    @product_count = @products.count
+
+    @products = @products
+                  .page(params[:page])
+                  .per(12)
+  end
 
     # Filter products by category.
     if params[:category_id].present?

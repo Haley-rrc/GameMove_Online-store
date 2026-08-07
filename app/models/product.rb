@@ -24,4 +24,13 @@ class Product < ApplicationRecord
                                only_integer: true,
                                greater_than_or_equal_to: 0
                              }
+
+  scope :new_products, -> {
+    where(created_at: 3.days.ago..Time.current)
+  }
+
+  scope :recently_updated, -> {
+    where(updated_at: 3.days.ago..Time.current)
+      .where("created_at < ?", 3.days.ago)
+  }
 end

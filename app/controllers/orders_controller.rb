@@ -1,11 +1,10 @@
 class OrdersController < ApplicationController
-  # Order history is only available to administrators.
   before_action :require_admin, only: [:index]
 
-  # Order details require admin access or one-time customer access.
+  before_action :set_order, only: [:show]
   before_action :require_order_access, only: [:show]
 
-  # Show all orders to the administrator.
+  # Admin can see all orders.
   def index
     @orders = Order.includes(
       :customer,
@@ -13,45 +12,64 @@ class OrdersController < ApplicationController
     ).order(created_at: :desc)
   end
 
+  # Logged-in customer can see their own past orders.
+  def my_orders
+    unless customer_signed_in?
+      redirect_to new_customer_session_path,
+                  alert: "Please log in to view your orders."
+      return
+    end
+
+    @orders = current_customer.orders
+                              .includes(order_items: :product)
+                              .order(created_at: :desc)
+  end
+
   # Show one order.
   def show
-    @order = Order.includes(
-      :customer,
-      order_items: :product
-    ).find(params[:id])
-
-    # Remove customer access after showing the new order once.
-    unless admin_logged_in?
+    # Remove one-time checkout access after it is used.
+    if !admin_logged_in? &&
+       !customer_signed_in?
       session.delete(:new_order_id)
     end
   end
 
   private
 
-  # Check whether an administrator is logged in.
+  def set_order
+    @order = Order.includes(
+      :customer,
+      order_items: :product
+    ).find(params[:id])
+  end
+
   def admin_logged_in?
     session[:admin_user_id].present?
   end
 
-  # Protect the full order history page.
   def require_admin
     return if admin_logged_in?
 
     redirect_to admin_login_path,
-                alert: "Please log in as admin to view orders."
+                alert: "Please log in as admin to view all orders."
   end
 
-  # Allow admin access or one-time access to the new order.
   def require_order_access
+    # Admin can see every order.
     return if admin_logged_in?
 
-    requested_order_id = params[:id].to_i
-    new_order_id = session[:new_order_id].to_i
+    # Logged-in customer can only see their own order.
+    if customer_signed_in? &&
+       @order.customer_id == current_customer.id
+      return
+    end
 
-    return if new_order_id.positive? &&
-              requested_order_id == new_order_id
+    # Guest can view the order immediately after checkout once.
+    if session[:new_order_id].to_i == @order.id
+      return
+    end
 
-    redirect_to admin_login_path,
-                alert: "Please log in as admin to view this order."
+    redirect_to root_path,
+                alert: "You do not have access to this order."
   end
 end

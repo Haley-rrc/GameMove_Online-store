@@ -29,6 +29,20 @@
     </p>
 
     <p>
+      <%= form.label :filter, "Product Filter" %>
+
+      <%= form.select(
+            :filter,
+            [
+              ["All Products", ""],
+              ["New Products", "new"],
+              ["Recently Updated", "updated"]
+            ],
+            { selected: params[:filter] }
+          ) %>
+    </p>
+
+    <p>
       <%= form.submit "Search" %>
 
       <%= link_to "Clear Search", products_path %>

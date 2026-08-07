@@ -1,0 +1,96 @@
+<h1>My Orders</h1>
+
+<% if @orders.any? %>
+
+  <% @orders.each do |order| %>
+    <div class="order-history-item">
+
+      <h2>
+        Order #<%= order.id %>
+      </h2>
+
+      <p>
+        Date:
+        <%= order.created_at.strftime("%Y-%m-%d") %>
+      </p>
+
+      <p>
+        Status:
+        <%= order.status.capitalize %>
+      </p>
+
+      <h3>Products</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% order.order_items.each do |item| %>
+            <tr>
+              <td>
+                <%= item.product.name %>
+              </td>
+
+              <td>
+                <%= number_to_currency(
+                      item.unit_price
+                    ) %>
+              </td>
+
+              <td>
+                <%= item.quantity %>
+              </td>
+
+              <td>
+                <%= number_to_currency(
+                      item.item_total
+                    ) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <p>
+        Subtotal:
+        <%= number_to_currency(order.subtotal) %>
+      </p>
+
+      <p>
+        Tax:
+        <%= number_to_percentage(
+              order.tax_rate * 100,
+              precision: 3,
+              strip_insignificant_zeros: true
+            ) %>
+
+        -
+        <%= number_to_currency(order.tax_amount) %>
+      </p>
+
+      <p>
+        Grand Total:
+        <%= number_to_currency(order.total_price) %>
+      </p>
+
+      <p>
+        <%= link_to "View Order Details",
+                    order_path(order) %>
+      </p>
+
+      <hr>
+    </div>
+  <% end %>
+
+<% else %>
+
+  <p>You do not have any orders yet.</p>
+
+<% end %>

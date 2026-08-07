@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   get "cart", to: "cart#show", as: :cart
   post "cart/add/:product_id", to: "cart#add", as: :add_to_cart
 
+  get "my_orders",
+    to: "orders#my_orders",
+    as: :my_orders
+
   patch "cart/update/:product_id",
         to: "cart#update",
         as: :update_cart_item
