@@ -32,10 +32,12 @@ class ProductsController < ApplicationController
 
     when "updated"
       @products = @products.recently_updated
-    end
 
     when "sale"
       @products = @products.on_sale
+    end
+
+
 
 
     @product_count = @products.count
