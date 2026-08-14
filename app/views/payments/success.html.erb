@@ -1,0 +1,34 @@
+<h1>Payment Received</h1>
+
+<% if @order %>
+  <p>Thank you for your payment.</p>
+
+  <p>
+    <strong>Order Number:</strong>
+    #<%= @order.id %>
+  </p>
+
+  <p>
+    <strong>Total:</strong>
+    <%= number_to_currency(@order.total_price) %>
+  </p>
+
+  <p>
+    <strong>Status:</strong>
+    <%= @order.status.titleize %>
+  </p>
+
+  <p>
+    <%= link_to "View Order", order_path(@order) %>
+  </p>
+
+  <p>
+    <%= link_to "Continue Shopping", products_path %>
+  </p>
+<% else %>
+  <p>Payment completed successfully.</p>
+
+  <p>
+    <%= link_to "Continue Shopping", products_path %>
+  </p>
+<% end %>

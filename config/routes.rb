@@ -33,7 +33,26 @@ Rails.application.routes.draw do
       as: :checkout_complete
 
   # Customer order history and order details.
-  resources :orders, only: [:index, :show]
+        resources :orders, only: [:index, :show] do
+        # Pay for a new order with Stripe.
+        post :pay,
+            on: :member,
+            to: "payments#create"
+
+        # Admin manually changes paid order to shipped.
+        patch :mark_shipped,
+                on: :member
+        end
+
+        # Stripe payment success page.
+        get "payment/success",
+            to: "payments#success",
+            as: :payment_success
+
+        # Stripe webhook confirms successful payment.
+        post "stripe/webhook",
+            to: "webhooks#stripe",
+            as: :stripe_webhook
 
   get "about", to: "pages#about", as: :about
   get "contact", to: "pages#contact", as: :contact

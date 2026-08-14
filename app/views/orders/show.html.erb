@@ -94,6 +94,41 @@
   </p>
 </div>
 
+<% if @order.status == "new" %>
+  <div class="order-payment">
+    <p>
+      <strong>Payment Status:</strong>
+      Waiting for payment
+    </p>
+
+    <%= button_to "Pay with Credit Card",
+              pay_order_path(@order),
+              method: :post,
+              data: { turbo: false } %>
+  </div>
+
+<% elsif @order.status == "paid" %>
+  <div class="order-payment">
+    <p>
+      <strong>Payment Status:</strong>
+      Payment completed.
+    </p>
+  </div>
+
+<% elsif @order.status == "shipped" %>
+  <div class="order-payment">
+    <p>
+      <strong>Payment Status:</strong>
+      Paid
+    </p>
+
+    <p>
+      <strong>Shipping Status:</strong>
+      Shipped
+    </p>
+  </div>
+<% end %>
+
 <% if session[:admin_user_id].present? %>
   <p>
     <%= link_to "Back to Order History", orders_path %>

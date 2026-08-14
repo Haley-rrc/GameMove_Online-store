@@ -63,7 +63,7 @@ class CheckoutController < ApplicationController
 
       # Save the order and associate it with the customer.
       @order = @customer.orders.create!(
-        status: "pending",
+        status: "new",
 
         # Save address details with the order.
         first_name: @customer.first_name,

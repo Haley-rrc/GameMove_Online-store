@@ -63,3 +63,5 @@ gem "kaminari"
 gem "activeadmin"
 
 gem "devise"
+
+gem "stripe"
