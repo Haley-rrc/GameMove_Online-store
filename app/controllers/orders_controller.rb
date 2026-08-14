@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
-  before_action :require_admin, only: [:index]
+  before_action :require_admin,
+              only: [:index, :mark_shipped]
 
   before_action :set_order, only: [:show]
   before_action :require_order_access, only: [:show]
@@ -32,6 +33,22 @@ class OrdersController < ApplicationController
        !customer_signed_in?
       session.delete(:new_order_id)
     end
+  end
+
+  def mark_shipped
+    order = Order.find(params[:id])
+
+    # Only paid orders can be shipped.
+    unless order.status == "paid"
+      redirect_to orders_path,
+                  alert: "Only paid orders can be shipped."
+      return
+    end
+
+    order.update!(status: "shipped")
+
+    redirect_to orders_path,
+                notice: "Order ##{order.id} marked as shipped."
   end
 
   private

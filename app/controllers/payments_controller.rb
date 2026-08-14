@@ -90,5 +90,16 @@ class PaymentsController < ApplicationController
       stripe_checkout_session_id:
         @stripe_session.id
     )
+
+    # Stripe confirmed the payment.
+    if @order &&
+      @stripe_session.payment_status == "paid"
+
+      @order.update!(
+        status: "paid",
+        stripe_payment_intent_id:
+          @stripe_session.payment_intent
+      )
+    end
   end
 end

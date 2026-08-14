@@ -1,13 +1,9 @@
 class WebhooksController < ApplicationController
-  skip_before_action :verify_authenticity_token,
-                     only: :stripe
+  skip_forgery_protection only: :stripe
 
   def stripe
     payload = request.body.read
-
-    signature = request.env[
-      "HTTP_STRIPE_SIGNATURE"
-    ]
+    signature = request.env["HTTP_STRIPE_SIGNATURE"]
 
     begin
       event = Stripe::Webhook.construct_event(
@@ -25,18 +21,14 @@ class WebhooksController < ApplicationController
       stripe_session = event.data.object
 
       order = Order.find_by(
-        id: stripe_session.metadata.order_id
+        id: stripe_session.metadata["order_id"]
       )
 
-      if order &&
-         stripe_session.payment_status == "paid"
-
+      if order && stripe_session.payment_status == "paid"
         order.update!(
           status: "paid",
-          stripe_checkout_session_id:
-            stripe_session.id,
-          stripe_payment_intent_id:
-            stripe_session.payment_intent
+          stripe_checkout_session_id: stripe_session.id,
+          stripe_payment_intent_id: stripe_session.payment_intent
         )
       end
     end

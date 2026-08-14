@@ -15,6 +15,8 @@
         <th>Tax</th>
         <th>Grand Total</th>
         <th>Details</th>
+        <th>Status</th>
+        <th>Action</th>
       </tr>
     </thead>
 
@@ -62,6 +64,26 @@
           <td>
             <%= link_to "View Order", order_path(order) %>
           </td>
+
+          <td>
+            <%= order.status.titleize %>
+          </td>
+
+          <td>
+            <% if order.status == "paid" %>
+              <%= button_to "Mark as Shipped",
+                            mark_shipped_order_path(order),
+                            method: :patch,
+                            data: { turbo: false } %>
+
+            <% elsif order.status == "shipped" %>
+              Shipped
+
+            <% else %>
+              Waiting for Payment
+            <% end %>
+          </td>
+
         </tr>
       <% end %>
     </tbody>
